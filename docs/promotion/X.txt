@@ -1,5 +1,6 @@
-SVGO 4.1.0 + an original SVG: 3,409/16,384 pixels differed in one browser (128×128 white, pixelmatch 8.0.0 threshold 0.1, AA included).
+SVGO 4.1.0 changed the rendered position of this original SVG.
 
-Source: [REPOSITORY URL]
-Demo: not deployed
-Local: npm ci --ignore-scripts && npm run dev
+In one browser: 3,409 / 16,384 pixels differed (128×128, white, pixelmatch 0.1, AA on).
+
+Try: https://fightjs.github.io/svg-review-pack/
+Code: https://github.com/FightJs/svg-review-pack

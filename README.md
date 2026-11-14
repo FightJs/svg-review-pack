@@ -2,7 +2,7 @@
 
 A browser-local, single-SVG review tool: optimize with pinned SVGO, compare the rendered pixels, and export a review pack that another person can rerun. It is not an official SVGO project.
 
-**[Source repository](https://github.com/FightJs/svg-review-pack)** · **Live demo:** deployment in progress · **Interface:** Simplified Chinese
+**[Try the live demo](https://fightjs.github.io/svg-review-pack/)** · **[Source repository](https://github.com/FightJs/svg-review-pack)** · **Interface:** Simplified Chinese
 
 ![Real browser result: the original and optimized blue paths differ; 3,409 pixels differ at 128 by 128 on white](docs/images/example-result.png)
 
