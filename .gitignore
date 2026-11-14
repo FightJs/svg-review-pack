@@ -1,0 +1,4 @@
+node_modules/
+dist/
+gate-dist/
+.playwright-cli/

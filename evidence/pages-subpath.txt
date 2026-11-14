@@ -1,0 +1,28 @@
+### Result
+{"summary":"原图 159 字节 → 优化图 175 字节 · 差异像素 3409 / 16384","requests":["http://127.0.0.1:4181/svg-review-pack/","http://127.0.0.1:4181/svg-review-pack/assets/index-GSL3ycKb.js","http://127.0.0.1:4181/svg-review-pack/assets/index-P5_1EdQY.css","http://127.0.0.1:4181/svg-review-pack/assets/worker-BnxhExHh.js","blob:http://127.0.0.1:4181/3c8c4db4-8ba0-44fe-80c9-2953899411f3","blob:http://127.0.0.1:4181/af0ea036-77a2-45d0-9fee-cbeef0f20a81","http://127.0.0.1:4181/svg-review-pack/assets/worker-BnxhExHh.js","blob:http://127.0.0.1:4181/13ae0e4b-2451-45f5-bee3-dfa52759887b","blob:http://127.0.0.1:4181/3caf4ec9-1ef1-4cfd-b12b-ca497704d9b4"]}
+### Ran Playwright code
+```js
+await (async page => {
+ const requests=[];page.on('request',r=>requests.push(r.url()));
+ await page.goto('http://127.0.0.1:4181/svg-review-pack/');
+ await page.waitForFunction(()=>/比较完成|没有检测到差异/.test(document.querySelector('#status').textContent));
+ const summary=await page.locator('#summary').innerText();
+ if(!summary.includes('3409 / 16384'))throw new Error('Unexpected result: '+summary);
+ await page.locator('#config').fill('{"floatPrecision":6,"multipass":true}');
+ if(!(await page.locator('#download').isDisabled()))throw new Error('Stale download enabled');
+ await page.locator('#run').click();
+ await page.waitForFunction(()=>/比较完成|没有检测到差异/.test(document.querySelector('#status').textContent));
+ if(!(await page.locator('#download').isEnabled()))throw new Error('No export');
+ const download=page.waitForEvent('download');await page.locator('#download').click();await (await download).saveAs('evidence/subpath-review-pack.zip');
+ return {summary,requests};
+}
+)(page);
+```
+### Page
+- Page URL: http://127.0.0.1:4181/svg-review-pack/
+- Page Title: SVG Review Pack
+- Console: 1 errors, 0 warnings
+### Events
+- New console entries: .playwright-cli/console-2026-11-14T08-58-42-974Z.log#L2
+- Downloading file svg-review-pack.zip ...
+- Downloaded file svg-review-pack.zip to ".playwright-cli/svg-review-pack-7.zip"

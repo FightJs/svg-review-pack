@@ -1,0 +1,11 @@
+async page => {
+ const requests=[];page.on('request',request=>requests.push(request.url()));
+ await page.context().setOffline(true);
+ try {
+  await page.goto('file:///tmp/svg-review-offline-check/report.html');
+  await page.waitForFunction(()=>[...document.images].every(i=>i.complete && i.naturalWidth===128));
+  const result=await page.evaluate(()=>({images:document.images.length,script:document.scripts.length,source:document.body.innerText.includes('<img src=x onerror=alert(1)>'),text:document.body.innerText.includes('does not perform verification')}));
+  if(result.images!==3||result.script!==0||!result.source||!result.text||requests.some(x=>/^https?:/.test(x)))throw new Error(JSON.stringify({result,requests}));
+  return {result,requests};
+ } finally {await page.context().setOffline(false);}
+}

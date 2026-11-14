@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="本地优化 SVG、比较渲染差异并导出可复验的审阅包。"><title>SVG Review Pack</title></head>
+<body>
+<header class="topbar"><div class="topbar-inner"><a class="brand" href="#top" aria-label="SVG Review Pack 首页"><span class="brand-mark" aria-hidden="true">S</span><span>SVG <span class="brand-muted">/</span> Review Pack</span></a><div class="topbar-meta"><span class="local-indicator"><span aria-hidden="true"></span>本地处理</span><a href="#limits">支持范围</a><a href="https://github.com/FightJs/svg-review-pack" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div></div></header>
+<main id="top">
+<div class="intro"><div><p class="intro-label">SVG REVIEW WORKSPACE <span>·</span> SVGO 4.1.0</p><h1>优化之后，<br class="mobile-break">看见每一处变化。</h1><p class="intro-copy">一张 SVG，一次真实比较，一份可以重新核对的审阅包。</p></div><div class="intro-aside"><span class="intro-aside-title">你的文件留在浏览器</span><span>无需账号 · 不上传服务器</span></div></div>
+<div class="workspace" id="workspace">
+<section class="panel input-panel" id="input-panel" aria-labelledby="input-title"><div class="panel-heading"><div><p class="panel-kicker">INPUT</p><h2 id="input-title">准备文件</h2></div><button id="reset" class="text-button">恢复示例</button></div>
+<p class="section-description">选择自己的图形，或直接运行已载入的示例。</p>
+<label id="drop" class="drop" for="file"><span class="upload-symbol" aria-hidden="true">↥</span><strong>选择或拖入 SVG</strong><span>单个文件 · UTF-8 · 最大 64 KiB</span><input id="file" type="file" accept=".svg,image/svg+xml"></label>
+<div class="file-line"><span>当前文件</span><strong id="filename"></strong></div>
+<div class="config-heading"><label for="config">优化配置</label><span>JSON</span></div><textarea id="config" aria-describedby="config-help" spellcheck="false" rows="4">{ "floatPrecision": 3, "multipass": false }</textarea><p class="field-help" id="config-help">支持 <code>floatPrecision</code>（0–6）和 <code>multipass</code>。其他字段会被拒绝。</p>
+<button id="run" class="primary run-button">优化并比较 <span aria-hidden="true">→</span></button><p id="status" role="status" aria-live="polite"></p>
+</section>
+<section class="panel result-panel" id="result" aria-labelledby="result-title" hidden><div class="panel-heading result-heading"><div><p class="panel-kicker">COMPARISON</p><h2 id="result-title">比较结果</h2></div><button id="download" class="primary download-button" disabled>下载审阅 ZIP <span aria-hidden="true">↓</span></button></div>
+<p class="section-description">在相同画布上渲染原图与候选，查看可观察到的变化。</p><p id="summary" class="summary"></p>
+<div class="images"><figure><figcaption><span>原图</span><small>128 × 128</small></figcaption><div id="before"></div></figure><figure><figcaption><span>优化图</span><small>128 × 128</small></figcaption><div id="after"></div></figure><figure><figcaption><span>像素差异</span><small>DIFF</small></figcaption><div id="diff"></div></figure></div>
+<div class="method"><div><strong>这次比较的条件</strong><p>SVGO 4.1.0 · pixelmatch 8.0.0<br>128 × 128 · 白色背景 · 阈值 0.1 · 含抗锯齿像素</p></div><p>差异数量只描述当前浏览器和参数下的观察，不代表所有环境的视觉或语义等价。</p></div><details><summary>查看运行环境与完整配置</summary><pre id="details"></pre></details></section>
+</div>
+<section id="limits" class="limits"><div><p class="panel-kicker">BEFORE YOU EXPORT</p><h2>关于审阅包</h2></div><div><p>只支持简单几何 SVG；CSS、脚本、外链、滤镜、文字、嵌套 SVG 和未知内容会被拒绝。完整白名单见 README。</p><p>离线报告可直接查看。重新验证需要 Node 和依赖安装；哈希不是签名，不能证明来源或安全性。</p></div></section>
+<footer><span>SVG Review Pack <span class="footer-dot">·</span> 为可复核的图形变更而做</span><span>本地处理 <span class="footer-dot">/</span> 固定版本 <span class="footer-dot">/</span> 可重新运行</span></footer>
+</main><script type="module" src="/src/main.js"></script></body></html>

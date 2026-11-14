@@ -1,0 +1,19 @@
+### Result
+{"summary":"原图 159 字节 → 优化图 175 字节 · 差异像素 3409 / 16384","requests":["http://127.0.0.1:4180/","http://127.0.0.1:4180/assets/index-GSL3ycKb.js","http://127.0.0.1:4180/assets/index-P5_1EdQY.css","http://127.0.0.1:4180/assets/worker-BnxhExHh.js","blob:http://127.0.0.1:4180/a8b0575a-0ffd-4cdd-baa3-aa9955bd3d69","blob:http://127.0.0.1:4180/664aa2a1-504b-4116-a9b8-85951015109e"]}
+### Ran Playwright code
+```js
+await (async page => {
+ const requests=[];page.on('request',r=>requests.push(r.url()));
+ await page.goto('http://127.0.0.1:4180/');
+ await page.waitForFunction(()=>/比较完成|没有检测到差异/.test(document.querySelector('#status').textContent));
+ const summary=await page.locator('#summary').textContent();
+ if(!summary.includes('3409 / 16384'))throw new Error('Unexpected example pixels: '+summary);
+ const downloadPromise=page.waitForEvent('download');await page.locator('#download').click();const download=await downloadPromise;await download.saveAs('evidence/example-review-pack.zip');
+ if(requests.some(url=>url.startsWith('http')&&!url.startsWith('http://127.0.0.1:4180/')))throw new Error('External request: '+requests.join(','));
+ return {summary,requests};
+}
+)(page);
+```
+### Events
+- Downloading file svg-review-pack.zip ...
+- Downloaded file svg-review-pack.zip to ".playwright-cli/svg-review-pack-6.zip"

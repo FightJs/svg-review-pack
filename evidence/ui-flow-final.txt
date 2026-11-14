@@ -1,0 +1,32 @@
+### Result
+"UI flow passed"
+### Ran Playwright code
+```js
+await (async page => {
+  const expect = (condition, message) => { if (!condition) throw new Error(message); };
+  const status = () => page.locator('#status').textContent();
+  const wait = () => page.waitForFunction(() => document.querySelector('#status').textContent.includes('比较完成') || document.querySelector('#status').textContent.includes('没有检测到差异') || document.querySelector('#status').classList.contains('error'));
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path d="M0 0h10v10H0z"/></svg>';
+  await page.goto('http://127.0.0.1:4179/'); await wait();
+  expect((await page.locator('#summary').textContent()).includes('差异像素'), 'example did not run');
+  await page.locator('#config').fill('{"floatPrecision":6,"multipass":true}');
+  expect(await page.locator('#download').isDisabled(), 'stale download enabled');
+  await page.locator('#file').setInputFiles({name:'plain.svg',mimeType:'image/svg+xml',buffer:Buffer.from(svg)});
+  await page.locator('#run').click(); await wait();
+  expect((await status()).includes('没有检测到差异'), 'zero-difference case did not pass');
+  await page.locator('#config').fill('{"plugins":[]}'); await page.locator('#run').click(); await wait();
+  expect((await status()).includes('不支持配置字段'), 'unsupported configuration accepted');
+  await page.locator('#config').fill('{}');
+  await page.locator('#file').setInputFiles({name:'bad.svg',mimeType:'image/svg+xml',buffer:Buffer.from(svg.replace('<path','<script/><path'))});
+  await page.locator('#run').click(); await wait();
+  expect((await status()).includes('不支持'), 'script accepted');
+  await page.locator('#file').setInputFiles({name:'large.svg',mimeType:'image/svg+xml',buffer:Buffer.alloc(65537,32)});
+  expect((await status()).includes('64 KiB'), 'large file accepted');
+  await page.locator('#run').click(); await wait();
+  expect((await status()).includes('请选择') || (await status()).includes('64 KiB'), 'failed selection reused previous input');
+  await page.locator('#reset').click(); await wait();
+  expect((await page.locator('#summary').textContent()).includes('差异像素'), 'reset failed');
+  return 'UI flow passed';
+}
+)(page);
+```

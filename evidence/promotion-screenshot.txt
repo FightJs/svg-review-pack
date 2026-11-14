@@ -1,0 +1,22 @@
+### Result
+{"summary":"原图 159 字节 → 优化图 175 字节 · 差异像素 3409 / 16384","render":"COMPARISON\n\n比较结果\n下载审阅 ZIP\n↓\n\n在相同画布上渲染原图与候选，查看可观察到的变化。\n\n原图 159 字节 → 优化图 175 字节 · 差异像素 3409 / 16384\n\n原图\n128 × 128\n优化图\n128 × 128\n像素差异\nDIFF\n这次比较的条件\n\nSVGO 4.1.0 · pixelmatch 8.0.0\n128 × 128 · 白色背景 · 阈值 0.1 · 含抗锯齿像素\n\n差异数量只描述当前浏览器和参数下的观察，不代表所有环境的视觉或语义等价。\n\n查看运行环境与完整配置","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36"}
+### Ran Playwright code
+```js
+await (async page => {
+ await page.setViewportSize({width:1440,height:1100});
+ await page.goto('http://127.0.0.1:4180/');
+ await page.waitForFunction(()=>/比较完成|没有检测到差异/.test(document.querySelector('#status').textContent));
+ const summary=await page.locator('#summary').innerText();
+ if(!summary.includes('3409 / 16384'))throw new Error('Unexpected result: '+summary);
+ await page.screenshot({path:'docs/images/app-full.png',fullPage:true});
+ await page.locator('#result').screenshot({path:'docs/images/example-result.png'});
+ return {summary,render:await page.locator('#result').innerText(),userAgent:await page.evaluate(()=>navigator.userAgent)};
+}
+)(page);
+```
+### Page
+- Page URL: http://127.0.0.1:4180/
+- Page Title: SVG Review Pack
+- Console: 1 errors, 0 warnings
+### Events
+- New console entries: .playwright-cli/console-2026-11-14T09-10-41-054Z.log#L2

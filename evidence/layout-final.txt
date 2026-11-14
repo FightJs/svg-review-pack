@@ -1,0 +1,18 @@
+### Result
+{"desktop":{"input":{"x":36,"y":249.234375,"width":360,"height":666.984375,"top":249.234375,"right":396,"bottom":916.21875,"left":36},"result":{"x":414,"y":249.234375,"width":990,"height":588.890625,"top":249.234375,"right":1404,"bottom":838.125,"left":414},"overflow":false},"mobile":{"overflow":false,"button":{"x":37,"y":821.203125,"width":301,"height":46,"top":821.203125,"right":338,"bottom":867.203125,"left":37}}}
+### Ran Playwright code
+```js
+await (async page => {
+ const check=(condition,message)=>{if(!condition)throw Error(message)};
+ await page.setViewportSize({width:1440,height:1000});
+ await page.goto('http://127.0.0.1:4179/');
+ await page.waitForFunction(()=>/比较完成|没有检测到差异/.test(document.querySelector('#status').textContent));
+ const desktop=await page.evaluate(()=>{let input=document.querySelector('#input-panel').getBoundingClientRect(),result=document.querySelector('#result').getBoundingClientRect();return {input:input.toJSON(),result:result.toJSON(),overflow:document.documentElement.scrollWidth>innerWidth}});
+ check(desktop.result.left>=desktop.input.right && !desktop.overflow,'desktop work areas should be side by side without horizontal overflow');
+ await page.setViewportSize({width:375,height:812});
+ const mobile=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,button:document.querySelector('#run').getBoundingClientRect().toJSON()}));
+ check(!mobile.overflow && mobile.button.width>=44 && mobile.button.height>=44,'mobile layout or target size');
+ return {desktop,mobile};
+}
+)(page);
+```

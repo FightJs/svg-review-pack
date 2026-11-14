@@ -1,0 +1,9 @@
+PASS missing dependency: nonzero and install hint
+PASS npm ci --ignore-scripts
+PASS intact export: PASS: hashes and reoptimized bytes match. This does not authenticate the files or prove visual equivalence.
+PASS tamper input.svg: FAIL: SHA-256 mismatch: input.svg
+PASS tamper effective-config.json: FAIL: SHA-256 mismatch: effective-config.json
+PASS tamper optimized.svg: FAIL: SHA-256 mismatch: optimized.svg
+PASS tamper version: FAIL: SVGO version mismatch: installed 4.1.0, manifest 0.0.0
+PASS changed candidate plus matching hash: FAIL: Reoptimized bytes do not match optimized.svg
+PASS missing file: FAIL: ENOENT: no such file or directory, open 'input.svg'

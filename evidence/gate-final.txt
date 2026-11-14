@@ -1,0 +1,18 @@
+### Result
+[{"name":"input0-multipassfalse-precision0","equal":true},{"name":"input0-multipassfalse-precision6","equal":true},{"name":"input0-multipasstrue-precision0","equal":true},{"name":"input0-multipasstrue-precision6","equal":true},{"name":"input1-multipassfalse-precision0","equal":true},{"name":"input1-multipassfalse-precision6","equal":true},{"name":"input1-multipasstrue-precision0","equal":true},{"name":"input1-multipasstrue-precision6","equal":true},{"name":"input2-multipassfalse-precision0","equal":true},{"name":"input2-multipassfalse-precision6","equal":true},{"name":"input2-multipasstrue-precision0","equal":true},{"name":"input2-multipasstrue-precision6","equal":true}]
+### Ran Playwright code
+```js
+await (async page => {
+ await page.goto('http://127.0.0.1:4190/');
+ await page.waitForFunction(()=>document.body.textContent.trim().startsWith('['),{timeout:30000});
+ const results=await page.evaluate(()=>JSON.parse(document.body.textContent));
+ if(results.length!==12||results.some(x=>!x.equal))throw new Error(JSON.stringify(results));
+ return results.map(({name,equal})=>({name,equal}));
+}
+)(page);
+```
+### Page
+- Page URL: http://127.0.0.1:4190/
+- Console: 1 errors, 0 warnings
+### Events
+- New console entries: .playwright-cli/console-2026-11-14T09-10-41-054Z.log#L3

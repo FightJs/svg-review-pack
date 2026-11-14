@@ -1,0 +1,5 @@
+SVGO 4.1.0 + an original SVG: 3,409/16,384 pixels differed in one browser (128×128 white, pixelmatch 8.0.0 threshold 0.1, AA included).
+
+Source: [REPOSITORY URL]
+Demo: not deployed
+Local: npm ci --ignore-scripts && npm run dev
